@@ -23,7 +23,9 @@ EKS 상태를 일일이 확인하지 않아도 Agent가 먼저 조사해 장애 
   <img src="https://img.shields.io/badge/k6-7D64FF?style=for-the-badge&logo=k6&logoColor=white" />
 </p>
 
-**CJ AI-Cloudwave 1기 5팀** &nbsp;·&nbsp; <sub><span style="color:#8b949e">2026.08.07 ~ 2026.08.28</span></sub>
+**CJ AI-Cloudwave 1기 5팀**
+
+<sub><span style="color:#8b949e">(프로젝트 기간 - 2026.08.07 ~ 2026.08.28)</span></sub>
 
 </div>
 
@@ -49,6 +51,8 @@ EKS 상태를 일일이 확인하지 않아도 Agent가 먼저 조사해 장애 
 시간대에는 대응이 빠르게 진행되지 못해, 수동 분석에 의존하는 구조에서는 문제가 더 크게
 발생합니다. 따라서 이러한 문제를 해결하기 위해 **AI Agent를 이용해 장애 발생 시 담당자가
 빠른 시간 내에 조치할 수 있도록 돕고, 탐지 시간과 복구 시간을 줄이는 것**을 목표로 합니다.
+
+<br>
 
 ### 목표
 
