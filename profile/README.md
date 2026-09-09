@@ -23,7 +23,7 @@ EKS 상태를 일일이 확인하지 않아도 Agent가 먼저 조사해 장애 
   <img src="https://img.shields.io/badge/k6-7D64FF?style=for-the-badge&logo=k6&logoColor=white" />
 </p>
 
-**CJ AI-Cloudwave 1기 5팀**
+**CJ AI-Cloudwave 1기 5팀 🏆**
 
 <sub><span style="color:#8b949e">(프로젝트 기간 - 2026.08.07 ~ 2026.08.28)</span></sub>
 
