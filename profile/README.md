@@ -10,9 +10,14 @@ EKS 상태를 일일이 확인하지 않아도 Agent가 먼저 조사해 장애 
 <p>
   <img src="https://img.shields.io/badge/AWS-232F3E?style=for-the-badge&logo=amazonwebservices&logoColor=white" />
   <img src="https://img.shields.io/badge/Amazon_EKS-FF9900?style=for-the-badge&logo=amazoneks&logoColor=white" />
+  <img src="https://img.shields.io/badge/Terraform-7B42BC?style=for-the-badge&logo=terraform&logoColor=white" />
+  <img src="https://img.shields.io/badge/Argo_CD-EF7B4D?style=for-the-badge&logo=argo&logoColor=white" />
   <img src="https://img.shields.io/badge/Bedrock_AgentCore-4B32C3?style=for-the-badge&logo=amazonaws&logoColor=white" />
+</p>
+<p>
   <img src="https://img.shields.io/badge/Spring_Boot-6DB33F?style=for-the-badge&logo=springboot&logoColor=white" />
-  <img src="https://img.shields.io/badge/React_18-20232a?style=for-the-badge&logo=react&logoColor=61DAFB" />
+  <img src="https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB" />
+  <img src="https://img.shields.io/badge/Apache_Kafka-231F20?style=for-the-badge&logo=apachekafka&logoColor=white" />
   <img src="https://img.shields.io/badge/Prometheus-E6522C?style=for-the-badge&logo=prometheus&logoColor=white" />
   <img src="https://img.shields.io/badge/Grafana-F46800?style=for-the-badge&logo=grafana&logoColor=white" />
   <img src="https://img.shields.io/badge/k6-7D64FF?style=for-the-badge&logo=k6&logoColor=white" />
@@ -64,7 +69,7 @@ EKS 상태를 일일이 확인하지 않아도 Agent가 먼저 조사해 장애 
 
 <div align="center">
 
-| <img src="../images/team/JONG-sq.png" width="115" height="115" /> | <img src="../images/team/LEE-sq.png" width="115" height="115" /> | <img src="../images/team/WON-sq.png" width="115" height="115" /> | <img src="../images/team/YEON-sq.png" width="115" height="115" /> | <img src="../images/team/JUN-sq.png" width="115" height="115" /> |
+| <img src="../images/TEAM/JONG-sq.png" width="115" height="115" /> | <img src="../images/TEAM/LEE-sq.png" width="115" height="115" /> | <img src="../images/TEAM/WON-sq.png" width="115" height="115" /> | <img src="../images/TEAM/YEON-sq.png" width="115" height="115" /> | <img src="../images/TEAM/JUN-sq.png" width="115" height="115" /> |
 |:---:|:---:|:---:|:---:|:---:|
 | **백종훈** | **이호근** | **최혜원** | **백세연** | **이승준** |
 | INFRA | DATA | OPS | DEVOPS | AI |
@@ -110,6 +115,8 @@ EKS 상태를 일일이 확인하지 않아도 Agent가 먼저 조사해 장애 
 - Order에 **TimeLimiter 2s + CircuitBreaker**를 걸었고, 이 두 값이 시나리오 A와 B를 가릅니다
 - 재고 판정은 **Redis 카운터**가 맡고 DB는 결과만 받아 적어, 같은 행에 쓰기가 몰리는 것을 피합니다
 
+<br>
+
 <details>
 <summary><b>상세 아키텍처 펼치기</b></summary>
 
@@ -121,6 +128,8 @@ EKS 상태를 일일이 확인하지 않아도 Agent가 먼저 조사해 장애 
   `inventory.changed` · `settlement.completed` 네 종으로 나눴습니다
 - **MSK Connect(Debezium)** 가 outbox 테이블을 읽어 `EventRouter(event_type)` 로 각 토픽에
   라우팅합니다
+
+<br>
 
 </details>
 
@@ -138,6 +147,8 @@ EKS 상태를 일일이 확인하지 않아도 Agent가 먼저 조사해 장애 
 - 노드를 **시스템 / 워커 2계층**으로 분리해, 워크로드가 스케일될 때 관측 스택이 함께 밀려나지
   않도록 했습니다
 
+<br>
+
 ---
 
 ### 3. Incident 탐지
@@ -150,6 +161,8 @@ EKS 상태를 일일이 확인하지 않아도 Agent가 먼저 조사해 장애 
 - **LLM 트랙** — 비교 실험용 RCA 트랙으로, 탐지는 하지 않고 Bedrock으로 원인만 추론합니다
 - 세 트랙의 결과는 **Incident 스키마 하나**로 합류해 DynamoDB에 적재됩니다
 
+<br>
+
 ---
 
 ### 4. AI Agent
@@ -161,7 +174,7 @@ Incident가 발생했을 때 지표 · 로그 · 클러스터 상태를 스스�
 
 ![AIOps Agent 아키텍처](../images/AIOPS-AGENT.png)
 
-#### Scout Agent
+#### **[Scout Agent]**
 
 Scout Agent는 **멀티 Agent**로 구성했습니다. **Agents as Tools** 방식이라 사람이 워크플로우를
 미리 짜 둘 필요 없이, 요청에 따라 **Main Agent가 서브 Agent들을 직접 호출**하고 필요한
@@ -183,7 +196,9 @@ Scout Agent는 **멀티 Agent**로 구성했습니다. **Agents as Tools** 방�
 - Verifier는 리포트 초안을 **Incident 원본 데이터 · 서브 Agent가 수집한 증거 · Runbook의 판정
   기준**과 다시 대조합니다. 근거 없는 주장이나 Runbook에 없는 조치가 섞여 있으면 재작성을 요구합니다
 
-#### Runbook Agent
+<br>
+
+#### **[Runbook Agent]**
 
 ![Runbook Agent](../images/runbook-agent.png)
 
@@ -197,10 +212,14 @@ Scout Agent는 **멀티 Agent**로 구성했습니다. **Agents as Tools** 방�
 - 원본 테이블에 저장되면 **DynamoDB Streams**가 이를 감지해 자동으로 **임베딩**하고, 다음
   장애부터 이 Runbook이 유사도 비교 대상에 포함됩니다
 
+<br>
+
 ![Slack 승인 요청](../images/runbook-agent-result.png)
 
 Agent가 새로운 Runbook을 만들어도 되는지 **Slack으로 담당자에게 승인을 요청한 메시지**입니다.
 이렇게 승인이 쌓일수록 대응할 수 있는 장애의 범위가 넓어집니다.
+
+<br>
 
 ---
 
@@ -224,6 +243,8 @@ Agent가 새로운 Runbook을 만들어도 되는지 **Slack으로 담당자에�
 상단 스탯 6개(주문 확정률 · 결제 거절율 · 타임아웃율 · 고아 결제 · 워밍업 Pod · 서킷브레이커)만
 보면 **지금 어느 시나리오인지 한눈에** 판별됩니다.
 
+<br>
+
 ---
 
 ## 주요 기능
@@ -238,17 +259,13 @@ Runbook · Incident · Agent 실행 결과를 한 화면에서 관리하는 대�
 
 | Incident 정보 확인 | Runbook 관리 |
 |:---:|:---:|
-| <img src="../images/incidents.png" width="420" /> | <img src="../images/runbook-crud.gif" width="420" /> |
+| <img src="../images/incidents.png" width="400" /> | <img src="../images/runbook-crud.gif" width="400" /> |
 | 심각도 · 유형 · 서비스 · 상태별로 집계하고, Agent의 진단 경로를 실시간으로 보여줍니다 | Runbook을 조회 · 검색 · 편집 · 생성 · 삭제합니다 |
-
-| Incident · Runbook 관계 그래프 | 운영 지표 |
-|:---:|:---:|
-| <img src="../images/graph.gif" width="420" /> | <img src="../images/metrics.png" width="420" /> |
+| **Incident · Runbook 관계 그래프** | **운영 지표** |
+| <img src="../images/graph.gif" width="400" /> | <img src="../images/metrics.png" width="400" /> |
 | Incident 유형과 Runbook의 연결을 그래프로 시각화합니다 | Agent 파이프라인 상태를 시계열로 확인합니다 |
-
-| Agent 평가 | Agent 실행 트레이스 |
-|:---:|:---:|
-| <img src="../images/evaluations.png" width="420" /> | <img src="../images/trace-flow.gif" width="420" /> |
+| **Agent 평가** | **Agent 실행 트레이스** |
+| <img src="../images/evaluations.png" width="400" /> | <img src="../images/trace-flow.gif" width="400" /> |
 | Agent 평가 점수와 심사자의 의견을 번역 · 요약해 함께 표시합니다 | 스팬 세부정보와 실행 궤적, 토큰 · 오류를 확인합니다 |
 
 </div>
@@ -265,6 +282,8 @@ Runbook · Incident · Agent 실행 결과를 한 화면에서 관리하는 대�
 Incident가 들어와 Agent의 조사와 판정을 거치는 동안, 진단이 어디까지 진행됐는지 대시보드에
 실시간으로 나타납니다.
 
+<br>
+
 <div align="center">
   <img src="../images/slack-report.png" width="600" alt="Slack 리포트" />
 </div>
@@ -274,20 +293,20 @@ Incident가 들어와 Agent의 조사와 판정을 거치는 동안, 진단이 �
 
 ---
 
-## 저장소
+## Repository
 
-| 저장소 | 구성된 코드 |
+| Repository | 구성된 코드 |
 |---|---|
-| [`backend`](../backend) | Spring Boot MSA 5종 (order · inventory · payment · settlement · notification) |
-| [`frontend`](../frontend) | React 세일 페이지 (상품 그리드 · 장바구니 · 체크아웃) |
-| [`incident-detection`](../incident-detection) | 관측 스택 매니페스트 · 규칙 탐지기 · ML 탐지기 · Incident 스키마 |
-| [`ai-observability-agents`](../ai-observability-agents) | Scout Agent (Main · Monitoring · EKS · Verifier) · MCP 런타임 · Runbook 19종 |
-| [`ai-runbook-agents`](../ai-runbook-agents) | Runbook Agent · SQS 컨슈머 Lambda · Slack 승인 콜백 Lambda |
-| [`ai-agent-dashboard`](../ai-agent-dashboard) | React 대시보드 프런트엔드 · 조회 API |
-| [`load-test`](../load-test) | k6 부하 스크립트 · 카오스 스케줄러 · nGrinder 시나리오 |
-| [`iac-terraform`](../iac-terraform) | Terraform 모듈 (VPC · EKS) |
-| [`documentation`](../documentation) | 설계 문서 (architecture · decisions · contracts · schema) |
-| [`trouble-shooting`](../trouble-shooting) | 트러블슈팅 기록 (문제 하나당 파일 하나) |
+| [`backend`](https://github.com/CJ-AI-CLOUDWAVE-TEAM-5/backend) | Spring Boot MSA 5종 (order · inventory · payment · settlement · notification) |
+| [`frontend`](https://github.com/CJ-AI-CLOUDWAVE-TEAM-5/frontend) | React 세일 페이지 (상품 그리드 · 장바구니 · 체크아웃) |
+| [`incident-detection`](https://github.com/CJ-AI-CLOUDWAVE-TEAM-5/incident-detection) | 관측 스택 매니페스트 · 규칙 탐지기 · ML 탐지기 · Incident 스키마 |
+| [`ai-observability-agents`](https://github.com/CJ-AI-CLOUDWAVE-TEAM-5/ai-observability-agents) | Scout Agent (Main · Monitoring · EKS · Verifier) · MCP 런타임 · Runbook 19종 |
+| [`ai-runbook-agents`](https://github.com/CJ-AI-CLOUDWAVE-TEAM-5/ai-runbook-agents) | Runbook Agent · SQS 컨슈머 Lambda · Slack 승인 콜백 Lambda |
+| [`ai-agent-dashboard`](https://github.com/CJ-AI-CLOUDWAVE-TEAM-5/ai-agent-dashboard) | React 대시보드 프런트엔드 · 조회 API |
+| [`load-test`](https://github.com/CJ-AI-CLOUDWAVE-TEAM-5/load-test) | k6 부하 스크립트 · 카오스 스케줄러 · nGrinder 시나리오 |
+| [`iac-terraform`](https://github.com/CJ-AI-CLOUDWAVE-TEAM-5/iac-terraform) | Terraform 모듈 (VPC · EKS) |
+| [`documentation`](https://github.com/CJ-AI-CLOUDWAVE-TEAM-5/documentation) | 설계 문서 (architecture · decisions · contracts · schema) |
+| [`trouble-shooting`](https://github.com/CJ-AI-CLOUDWAVE-TEAM-5/trouble-shooting) | 트러블슈팅 기록 (문제 하나당 파일 하나) |
 
 <div align="center">
 <br>
